@@ -129,3 +129,21 @@
 .form-success {
   border: 1px solid #027a48;
 }
+
+
+.transaction-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex: 1;
+}
+
+.delete-button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}

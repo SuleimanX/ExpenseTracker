@@ -42,6 +42,19 @@ function App() {
 
   const balance = income - expenses;
 
+  // Delete a transaction
+  const handleDelete = (transactionId) => {
+    setTransactions((currentTransactions) =>
+      currentTransactions.filter(
+        (transaction) => transaction.id !== transactionId,
+      ),
+    );
+
+    setSuccessMessage("Transaction deleted successfully.");
+    setError("");
+  };
+
+  // Add a transaction
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -75,6 +88,7 @@ function App() {
     setDescription("");
     setAmount("");
     setType("expense");
+
     setSuccessMessage("Transaction added successfully.");
   };
 
@@ -102,6 +116,7 @@ function App() {
           )}
 
           <label htmlFor="description">Description</label>
+
           <input
             id="description"
             type="text"
@@ -111,6 +126,7 @@ function App() {
           />
 
           <label htmlFor="amount">Amount</label>
+
           <input
             id="amount"
             type="number"
@@ -122,6 +138,7 @@ function App() {
           />
 
           <label htmlFor="type">Type</label>
+
           <select
             id="type"
             value={type}
@@ -157,12 +174,23 @@ function App() {
           <ul className="transaction-list">
             {transactions.map((transaction) => (
               <li className="transaction-item" key={transaction.id}>
-                <span>{transaction.description}</span>
+                <div className="transaction-details">
+                  <span>{transaction.description}</span>
 
-                <span>
-                  {transaction.type === "expense" ? "-" : "+"}KSh{" "}
-                  {transaction.amount.toLocaleString()}
-                </span>
+                  <span>
+                    {transaction.type === "expense" ? "-" : "+"}KSh{" "}
+                    {transaction.amount.toLocaleString()}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  className="delete-button"
+                  onClick={() => handleDelete(transaction.id)}
+                  aria-label={`Delete ${transaction.description} transaction`}
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
