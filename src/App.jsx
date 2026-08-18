@@ -24,12 +24,13 @@ const initialTransactions = [
 ];
 
 function App() {
-  const [transactions, setTransactions] =
-    useState(initialTransactions);
+  const [transactions, setTransactions] = useState(initialTransactions);
 
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const income = transactions
     .filter((transaction) => transaction.type === "income")
@@ -46,7 +47,16 @@ function App() {
 
     const numericAmount = Number(amount);
 
-    if (!description.trim() || numericAmount <= 0) {
+    setError("");
+    setSuccessMessage("");
+
+    if (!description.trim()) {
+      setError("Please enter a transaction description.");
+      return;
+    }
+
+    if (!amount || numericAmount <= 0) {
+      setError("Please enter an amount greater than zero.");
       return;
     }
 
@@ -65,6 +75,7 @@ function App() {
     setDescription("");
     setAmount("");
     setType("expense");
+    setSuccessMessage("Transaction added successfully.");
   };
 
   return (
@@ -78,40 +89,47 @@ function App() {
         <h2>Add Transaction</h2>
 
         <form onSubmit={handleSubmit} className="transaction-form">
-          <label>
-            Description
-            <input
-              type="text"
-              value={description}
-              onChange={(event) =>
-                setDescription(event.target.value)
-              }
-              placeholder="e.g. Groceries"
-            />
-          </label>
+          {error && (
+            <p className="form-message form-error" role="alert">
+              {error}
+            </p>
+          )}
 
-          <label>
-            Amount
-            <input
-              type="number"
-              value={amount}
-              onChange={(event) => setAmount(event.target.value)}
-              placeholder="e.g. 1500"
-              min="0"
-              step="0.01"
-            />
-          </label>
+          {successMessage && (
+            <p className="form-message form-success" role="status">
+              {successMessage}
+            </p>
+          )}
 
-          <label>
-            Type
-            <select
-              value={type}
-              onChange={(event) => setType(event.target.value)}
-            >
-              <option value="expense">Expense</option>
-              <option value="income">Income</option>
-            </select>
-          </label>
+          <label htmlFor="description">Description</label>
+          <input
+            id="description"
+            type="text"
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            placeholder="e.g. Groceries"
+          />
+
+          <label htmlFor="amount">Amount</label>
+          <input
+            id="amount"
+            type="number"
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
+            placeholder="e.g. 1500"
+            min="0"
+            step="0.01"
+          />
+
+          <label htmlFor="type">Type</label>
+          <select
+            id="type"
+            value={type}
+            onChange={(event) => setType(event.target.value)}
+          >
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
 
           <button type="submit">Add Transaction</button>
         </form>
