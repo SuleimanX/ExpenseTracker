@@ -1,6 +1,5 @@
 import "./App.css";
 
-
 const transactions = [
   {
     id: 1,
@@ -59,6 +58,23 @@ function App() {
             <p>KSh {expenses.toLocaleString()}</p>
           </article>
         </div>
+
+        <section className="transactions">
+          <h2>Recent Transactions</h2>
+
+          <ul className="transaction-list">
+            {transactions.map((transaction) => (
+              <li className="transaction-item" key={transaction.id}>
+                <span>{transaction.description}</span>
+
+                <span>
+                  {transaction.type === "expense" ? "-" : "+"}KSh{" "}
+                  {transaction.amount.toLocaleString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       </section>
     </main>
   );
