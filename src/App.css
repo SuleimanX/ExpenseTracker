@@ -147,3 +147,30 @@
   font: inherit;
   cursor: pointer;
 }
+
+.empty-state {
+  margin: 0;
+  padding: 2rem;
+  border: 1px dashed #bbb;
+  border-radius: 12px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .transaction-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .transaction-details {
+    width: 100%;
+  }
+
+  .delete-button {
+    width: 100%;
+  }
+}
