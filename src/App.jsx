@@ -1,6 +1,8 @@
 import "./App.css";
 
-const transactions = [
+import { useState } from "react";
+
+const initialTransactions = [
   {
     id: 1,
     description: "Salary",
@@ -22,6 +24,13 @@ const transactions = [
 ];
 
 function App() {
+  const [transactions, setTransactions] =
+    useState(initialTransactions);
+
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [type, setType] = useState("expense");
+
   const income = transactions
     .filter((transaction) => transaction.type === "income")
     .reduce((total, transaction) => total + transaction.amount, 0);
@@ -32,6 +41,32 @@ function App() {
 
   const balance = income - expenses;
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const numericAmount = Number(amount);
+
+    if (!description.trim() || numericAmount <= 0) {
+      return;
+    }
+
+    const newTransaction = {
+      id: Date.now(),
+      description: description.trim(),
+      amount: numericAmount,
+      type,
+    };
+
+    setTransactions((currentTransactions) => [
+      newTransaction,
+      ...currentTransactions,
+    ]);
+
+    setDescription("");
+    setAmount("");
+    setType("expense");
+  };
+
   return (
     <main className="app">
       <header className="app-header">
@@ -40,7 +75,46 @@ function App() {
       </header>
 
       <section className="dashboard">
-        <h2>Dashboard</h2>
+        <h2>Add Transaction</h2>
+
+        <form onSubmit={handleSubmit} className="transaction-form">
+          <label>
+            Description
+            <input
+              type="text"
+              value={description}
+              onChange={(event) =>
+                setDescription(event.target.value)
+              }
+              placeholder="e.g. Groceries"
+            />
+          </label>
+
+          <label>
+            Amount
+            <input
+              type="number"
+              value={amount}
+              onChange={(event) => setAmount(event.target.value)}
+              placeholder="e.g. 1500"
+              min="0"
+              step="0.01"
+            />
+          </label>
+
+          <label>
+            Type
+            <select
+              value={type}
+              onChange={(event) => setType(event.target.value)}
+            >
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </label>
+
+          <button type="submit">Add Transaction</button>
+        </form>
 
         <div className="summary-cards">
           <article className="summary-card">

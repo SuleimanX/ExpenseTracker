@@ -71,3 +71,43 @@
 .transaction-item:last-child {
   border-bottom: 0;
 }
+
+.transaction-form-section {
+  margin-bottom: 2rem;
+}
+
+.transaction-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.transaction-form label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.transaction-form input,
+.transaction-form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.transaction-form button {
+  width: fit-content;
+  padding: 0.75rem 1.25rem;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
