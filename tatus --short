@@ -1,0 +1,12 @@
+warning: in the working copy of 'index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+ index.html                |   4 [32m+[m[31m-[m
+ package-lock.json         | 475 [32m++++++++++++++++++++++++++++++++++++++++++++[m[31m--[m
+ package.json              |  12 [32m+[m[31m-[m
+ src/assets/typescript.svg |   1 [31m-[m
+ src/counter.ts            |   9 [31m-[m
+ src/main.ts               |  60 [31m------[m
+ src/style.css             | 296 [31m-----------------------------[m
+ tsconfig.json             |  24 [31m---[m
+ 8 files changed, 472 insertions(+), 409 deletions(-)
