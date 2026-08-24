@@ -52,11 +52,19 @@ describe("Expense Tracker", () => {
 
     expect(filterGroup).toBeInTheDocument();
 
-    await user.click(
+    const incomeButton = screen.getByRole("button", {
+      name: "Income",
+    });
+
+    await user.click(incomeButton);
+
+    expect(incomeButton).toHaveAttribute("aria-pressed", "true");
+
+    expect(
       screen.getByRole("button", {
-        name: "Income",
+        name: "All",
       }),
-    );
+    ).toHaveAttribute("aria-pressed", "false");
 
     expect(screen.getByText("Salary")).toBeInTheDocument();
     expect(screen.queryByText("Groceries")).not.toBeInTheDocument();
