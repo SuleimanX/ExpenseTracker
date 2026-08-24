@@ -174,3 +174,54 @@
     width: 100%;
   }
 }
+
+.transactions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.transaction-filters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-button {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background: #f3f4f6;
+}
+
+.filter-button:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.filter-button.active {
+  background: #111827;
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .transactions-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .transaction-filters {
+    width: 100%;
+  }
+
+  .filter-button {
+    flex: 1;
+  }
+}
