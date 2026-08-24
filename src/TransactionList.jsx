@@ -13,7 +13,7 @@ function TransactionList({ transactions, onDelete }) {
       <div className="transactions-header">
         <h2>Recent Transactions</h2>
 
-        <div className="transaction-filters" aria-label="Transaction filters">
+        <div className="transaction-filters" role="group" aria-label="Transaction filters">
           <button
             type="button"
             className={

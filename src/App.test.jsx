@@ -46,6 +46,12 @@ describe("Expense Tracker", () => {
 
     render(<App />);
 
+    const filterGroup = screen.getByRole("group", {
+      name: "Transaction filters",
+    });
+
+    expect(filterGroup).toBeInTheDocument();
+
     await user.click(
       screen.getByRole("button", {
         name: "Income",
