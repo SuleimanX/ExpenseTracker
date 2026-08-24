@@ -13,7 +13,19 @@ function TransactionList({ transactions, onDelete }) {
       <div className="transactions-header">
         <h2>Recent Transactions</h2>
 
-        <div className="transaction-filters" role="group" aria-label="Transaction filters">
+        <div
+          className="transaction-filters"
+          role="group"
+          aria-label="Transaction filters"
+        >
+          <span className="filter-status">
+            Currently showing:{" "}
+            {filter === "all"
+              ? "All transactions"
+              : filter === "income"
+                ? "Income"
+                : "Expenses"}
+          </span>
           <button
             type="button"
             className={
