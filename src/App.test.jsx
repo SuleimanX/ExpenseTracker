@@ -1,7 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 describe("Expense Tracker", () => {
   it("displays the initial transaction totals", () => {
@@ -17,20 +21,11 @@ describe("Expense Tracker", () => {
 
     render(<App />);
 
-    await user.type(
-      screen.getByLabelText("Description"),
-      "Lunch",
-    );
+    await user.type(screen.getByLabelText("Description"), "Lunch");
 
-    await user.type(
-      screen.getByLabelText("Amount"),
-      "800",
-    );
+    await user.type(screen.getByLabelText("Amount"), "800");
 
-    await user.selectOptions(
-      screen.getByLabelText("Type"),
-      "expense",
-    );
+    await user.selectOptions(screen.getByLabelText("Type"), "expense");
 
     await user.click(
       screen.getByRole("button", {
@@ -46,15 +41,69 @@ describe("Expense Tracker", () => {
     ).toBeInTheDocument();
   });
 
+  it("filters transactions by income", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Income",
+      }),
+    );
+
+    expect(screen.getByText("Salary")).toBeInTheDocument();
+    expect(screen.queryByText("Groceries")).not.toBeInTheDocument();
+    expect(screen.queryByText("Transport")).not.toBeInTheDocument();
+  });
+
+  it("filters transactions by expenses", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Expenses",
+      }),
+    );
+
+    expect(screen.queryByText("Salary")).not.toBeInTheDocument();
+    expect(screen.getByText("Groceries")).toBeInTheDocument();
+    expect(screen.getByText("Transport")).toBeInTheDocument();
+  });
+
+  it("shows a filtered empty state when no transactions match", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Delete Salary transaction",
+      }),
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Income",
+      }),
+    );
+
+    expect(
+      screen.getByText("No transactions match the selected filter."),
+    ).toBeInTheDocument();
+
+    expect(screen.queryByText("Groceries")).not.toBeInTheDocument();
+    expect(screen.queryByText("Transport")).not.toBeInTheDocument();
+  });
+
   it("shows an error when the description is empty", async () => {
     const user = userEvent.setup();
 
     render(<App />);
 
-    await user.type(
-      screen.getByLabelText("Amount"),
-      "500",
-    );
+    await user.type(screen.getByLabelText("Amount"), "500");
 
     await user.click(
       screen.getByRole("button", {
@@ -62,9 +111,7 @@ describe("Expense Tracker", () => {
       }),
     );
 
-    expect(
-      screen.getByRole("alert"),
-    ).toHaveTextContent(
+    expect(screen.getByRole("alert")).toHaveTextContent(
       "Please enter a transaction description.",
     );
   });
@@ -92,7 +139,7 @@ describe("Expense Tracker", () => {
       screen.getByText("Transaction deleted successfully."),
     ).toBeInTheDocument();
   });
-    it("shows an empty state when all transactions are deleted", async () => {
+  it("shows an empty state when all transactions are deleted", async () => {
     const user = userEvent.setup();
 
     render(<App />);
@@ -120,5 +167,34 @@ describe("Expense Tracker", () => {
         "No transactions yet. Add your first transaction using the form above.",
       ),
     ).toBeInTheDocument();
+  });
+  it("automatically clears the success message after three seconds", () => {
+    vi.useFakeTimers();
+
+    render(<App />);
+
+    fireEvent.change(screen.getByLabelText("Description"), {
+      target: { value: "Lunch" },
+    });
+
+    fireEvent.change(screen.getByLabelText("Amount"), {
+      target: { value: "500" },
+    });
+
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Add Transaction",
+      }),
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Transaction added successfully.",
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 });

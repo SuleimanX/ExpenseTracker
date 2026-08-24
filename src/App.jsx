@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransactionList from "./TransactionList";
 
 const initialTransactions = [
@@ -32,6 +32,19 @@ function App() {
   const [type, setType] = useState("expense");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  useEffect(() => {
+    if (!successMessage) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [successMessage]);
 
   const income = transactions
     .filter((transaction) => transaction.type === "income")
