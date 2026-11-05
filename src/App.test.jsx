@@ -60,6 +60,16 @@ describe("Expense Tracker", () => {
 
     expect(incomeButton).toHaveAttribute("aria-pressed", "true");
 
+    expect(screen.getByRole("button", { name: "Income" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    expect(screen.getByRole("button", { name: "All" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+
     expect(
       screen.getByRole("button", {
         name: "All",
@@ -210,5 +220,29 @@ describe("Expense Tracker", () => {
     });
 
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  });
+
+  it("shows an error when the amount is not greater than zero", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    await user.type(screen.getByLabelText("Description"), "Bonus");
+
+    fireEvent.change(screen.getByLabelText("Amount"), {
+      target: { value: "0" },
+    });
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Add Transaction",
+      }),
+    );
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Please enter an amount greater than zero.",
+    );
+
+    expect(screen.queryByText("Bonus")).not.toBeInTheDocument();
   });
 });

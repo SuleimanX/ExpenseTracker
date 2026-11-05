@@ -1,16 +1,23 @@
-# React + Vite
+# Expense Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A small React app for tracking income and expenses. Add transactions, see your balance, income, and expense totals update, filter the transaction list, and delete entries you no longer need.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Then open the local URL Vite prints (usually http://localhost:5173/) in your browser.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Other commands
 
-## Expanding the Oxlint configuration
+```bash
+npm test        # run the test suite once
+npm run lint    # lint the source files
+npm run build   # production build into dist/
+npm run preview # preview the production build
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Amounts are shown in Kenyan Shillings (KSh). Transactions are kept in memory only, so refreshing the page restores the three starter transactions.

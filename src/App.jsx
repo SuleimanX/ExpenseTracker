@@ -82,7 +82,7 @@ function App() {
       return;
     }
 
-    if (!amount || numericAmount <= 0) {
+    if (!amount || !Number.isFinite(numericAmount) || numericAmount <= 0) {
       setError("Please enter an amount greater than zero.");
       return;
     }
@@ -166,19 +166,19 @@ function App() {
         </form>
 
         <div className="summary-cards">
-          <article className="summary-card">
+          <article className="summary-card balance-card">
             <h3>Balance</h3>
             <p>KSh {balance.toLocaleString()}</p>
           </article>
 
           <article className="summary-card">
             <h3>Income</h3>
-            <p>KSh {income.toLocaleString()}</p>
+            <p className="income-value">KSh {income.toLocaleString()}</p>
           </article>
 
           <article className="summary-card">
             <h3>Expenses</h3>
-            <p>KSh {expenses.toLocaleString()}</p>
+            <p className="expense-value">KSh {expenses.toLocaleString()}</p>
           </article>
         </div>
 

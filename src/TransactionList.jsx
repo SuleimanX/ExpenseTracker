@@ -76,7 +76,7 @@ function TransactionList({ transactions, onDelete }) {
               <div className="transaction-details">
                 <span>{transaction.description}</span>
 
-                <span>
+                <span className={transaction.type === "expense" ? "transaction-amount expense" : "transaction-amount income"}>
                   {transaction.type === "expense" ? "-" : "+"}KSh{" "}
                   {transaction.amount.toLocaleString()}
                 </span>
